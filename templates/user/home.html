@@ -1,31 +1,41 @@
 {% extends 'user/base.html' %}
 {% block title %} Home {% endblock title %}
 {% block content %}
-    <h1 style="margin-top: 3px;">Home Page</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Home Page</h1>
 
     {% if user.is_authenticated %}
-      <h2>Hi {{ user }}!</h2>
-      <a href="{% url 'logout' %}" class="btn btn-secondary">Log out</a>
-      <a href="{% url 'new_group' %}" class="btn btn-secondary">New group</a>
+        <h2 class="mb-4">Hi {{ user }}!</h2>
+        <div class="mb-4">
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger">Log out</a>
+            <a href="{% url 'new_group' %}" class="btn btn-outline-primary">New group</a>
+        </div>
 
-    <ul>
-      {% for group in groups %}
-      <div id="{{ group.uuid }}">
-        <li><a>{{ group.uuid }}</a></li>
-          {% if request.user in group.members.all %}
-            <a href="{% url 'open_chat' uuid=group.uuid %}">Open</a>
-            <a href="{% url 'leave_group' uuid=group.uuid %}">Leave</a>
-            <a href="{% url 'remove_group' uuid=group.uuid %}">Delete</a>
-          {% else %}
-            <a href="{% url 'join_group' uuid=group.uuid %}">Join</a>
-          {% endif %}
-      </div>
-      {% endfor %}
-    </ul> 
+        <div class="list-group">
+            {% for group in groups %}
+            <div id="{{ group.uuid }}" class="list-group-item list-group-item-action">
+                <h5 class="mb-3">{{ group.name }}</h5>
+                <p class="mb-2">Group UUID: {{ group.uuid }}</p>
+                <div class="btn-group" role="group" aria-label="Group Actions">
+                    {% if request.user in group.members.all %}
+                        <a href="{% url 'open_chat' uuid=group.uuid %}" class="btn btn-outline-success btn-sm">Open</a>
+                        <a href="{% url 'leave_group' uuid=group.uuid %}" class="btn btn-outline-warning btn-sm">Leave</a>
+                        <a href="{% url 'remove_group' uuid=group.uuid %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    {% else %}
+                        <a href="{% url 'join_group' uuid=group.uuid %}" class="btn btn-outline-primary btn-sm">Join</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
     {% else %}
-      <h2>Hmm, who are you?</h2><a href="{% url 'login' %}" class="btn btn-secondary">Log in</a> OR <a href="{% url 'signup' %}" class="btn btn-info">Sign up</a>
+        <h2 class="mb-4">Hmm, who are you?</h2>
+        <p>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a> 
+            OR 
+            <a href="{% url 'signup' %}" class="btn btn-outline-info">Sign up</a>
+        </p>
     {% endif %}
-
+</div>
 {% endblock content %}
-    
