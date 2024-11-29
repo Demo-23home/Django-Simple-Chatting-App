@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from chat.models import Group
 
 
 def user_signup(request):
@@ -65,7 +66,9 @@ def logout(request):  # noqa: F811
 
     return redirect("login")
 
+
 @login_required
 def home(request):
-    # groups = Group.objects.all()
-    return render(request, "user/home.html")
+    groups = Group.objects.all()
+    context = {"groups": groups}
+    return render(request, "user/home.html", context=context)

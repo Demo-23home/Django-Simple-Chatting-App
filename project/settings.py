@@ -30,9 +30,22 @@ ALLOWED_HOSTS = []
 
 ASGI_APPLICATION = "project.asgi.application"
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                ("redis", 6379)
+            ],  # No change here as the internal Redis container port remains 6379
+        },
+    },
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

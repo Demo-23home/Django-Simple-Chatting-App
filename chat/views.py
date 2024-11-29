@@ -10,7 +10,7 @@ from django.http import HttpResponseForbidden
 @login_required
 def create_group(request):
     user = request.user
-    new_group = Group.object.create()
+    new_group = Group.objects.create()
     new_group.add_user(user)
     new_group.save()
     return redirect("home")
@@ -55,6 +55,6 @@ def open_chat(request, uuid):
         return HttpResponseForbidden("Not a member. Try another group.")
 
     messages = group.message_set.all()
-    sorted_messages = sorted(messages, key=lambda message: messages.timestamped)
+    sorted_messages = sorted(messages, key=lambda message: message.time_stamped)
     context = {"messages": sorted_messages, "uuid": uuid}
     return render(request, "chat/chat.html", context=context)

@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email: str, password: str | None = None) -> "User":
+    def create_user(self, email: str, password=None):
         if not email:
             raise ValueError("An email is required !")
 
@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email: str, password: str | None = None) -> "User":
+    def create_superuser(self, email: str, password=None):
         if not email:
             raise ValueError("An email is required!")
 
