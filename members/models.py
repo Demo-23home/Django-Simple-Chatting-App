@@ -34,5 +34,16 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User:
-    pass
+class User(AbstractBaseUser):
+    user_id = models.AutoField(primary_key=True)
+    email = models.EmailField(max_length=254, unique=True)
+    username = models.CharField(max_length=254, unique=True)
+    country = models.CharField(max_length=50)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
+    objects = UserManager()
+
+    def __str__(self) -> str:
+        return f"{self.username}"
