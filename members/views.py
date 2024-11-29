@@ -57,15 +57,15 @@ def user_login(request):
     return render(request, "user/login.html")
 
 
-def logout(request):
+def logout(request):  # noqa: F811
     try:
         logout(request)
-    except:
+    except:  # noqa: E722
         messages.error(request, "Something is wrong!")
 
     return redirect("login")
 
-
+@login_required
 def home(request):
     # groups = Group.objects.all()
     return render(request, "user/home.html")

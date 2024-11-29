@@ -10,7 +10,7 @@ class Group(models.Model):
     members = models.ManyToManyField(User)
 
     def add_user(self, user: User) -> None:  # type: ignore
-        if user in self.members:
+        if user in self.members.all():
             raise ValueError("User already exists in the group!")
 
         self.members.add(user)
@@ -18,7 +18,7 @@ class Group(models.Model):
         return
 
     def remove_user(self, user: User) -> None:  # type: ignore
-        if user not in self.members:
+        if user not in self.members.all():
             raise ValueError("User is not a member of the group!")
         self.members.remove(user)
         self.save()
