@@ -1,3 +1,38 @@
 from django.db import models
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
-# Create your models here.
+
+class UserManager(BaseUserManager):
+    def create_user(self, email: str, password: str | None = None) -> "User":
+        if not email:
+            raise ValueError("An email is required !")
+
+        if not password:
+            raise ValueError("A password is required")
+
+        email = self.normalize_email(email)
+
+        user = self.model(email=email)
+        user.set_password(password)
+
+        user.save()
+        return user
+
+    def create_superuser(self, email: str, password: str | None = None) -> "User":
+        if not email:
+            raise ValueError("An email is required!")
+
+        if not password:
+            raise ValueError("A password is required !")
+
+        user = self.create_user(email, password)
+
+        user.is_superuser = True
+        user.save()
+
+        return user
+
+
+class User:
+    pass
