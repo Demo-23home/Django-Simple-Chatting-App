@@ -7,8 +7,7 @@
 - [Technologies Used](#technologies-used)
 - [Architecture](#architecture)
 - [Installation](#installation)
-  - [Project Setup](#project-setup)
-  - [Running the Application](#running-the-application)
+- [Project Setup](#project-setup)
 - [Routing and WebSockets](#routing-and-websockets)
 
 ## Overview
@@ -29,7 +28,7 @@ The **Chat Application** is a real-time messaging platform built using Django. I
 - **Django:** Web framework for building the backend application.
 - **WebSockets:** Real-time messaging powered by WebSockets.
 - **Channels:** Django Channels for handling WebSocket connections.
-- **SQLite/PostgreSQL:** Relational database for storing user and group data.
+- **SQLite:** Relational database for storing user and group data.
 
 ### Frontend
 
@@ -50,33 +49,17 @@ The application follows a **client-server architecture**, with Django handling t
    git clone https://github.com/Demo-23home/Django-Simple-Chatting-App.git
    cd chat-app
    ```
-1. **Create a Virtual Environment (Optional but recommended):**
+1. **Build the Docker Conatainer:**
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # For Linux/Mac
-venv\Scripts\activate     # For Windows
-```
-3. **Install Dependencies**:
-```bash
-pip install -r requirements.txt
+docker-compose up --build
 ```
 
-4. **Migrate Database**:
+2. **Create a Superuser**:
+```bash
+docker-compose exec backend python manage.py createsuperuser
+```
 
-```bash
-python manage.py migrate
-```
-5. **Create a Superuser**:
-```bash
-python manage.py createsuperuser
-```
-6. **Running the Application**
-To run the development server:
-
-```bash
-python manage.py runserver
-```
 The application will be accessible at http://localhost:8000.
 
 Routing and WebSockets
